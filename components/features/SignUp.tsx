@@ -8,6 +8,7 @@ import { Field, FieldLabel } from "../ui/field"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import Image from "next/image"
+import { authClient } from "@/app/lib/auth-client"
 
 interface signupInputs{
   name : string,
@@ -34,6 +35,13 @@ const{control,handleSubmit}= useForm<z.infer<typeof signUpSchema>>({
 const onSubmit:SubmitHandler<signupInputs>=(data)=>{
   console.log(data);
 }
+
+const onSubmitGoogle = async () => {
+  await authClient.signIn.social({
+    provider: "google",
+  });
+};
+
   return (
     <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8 text-black flex items-center justify-center mt-10 ml-96 border">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -65,6 +73,10 @@ const onSubmit:SubmitHandler<signupInputs>=(data)=>{
         {fieldState.error&& <span className="text-red-500">{fieldState.error.message}</span>}
       </Field>} />
       <Button type="submit" variant="outline" className="w-full cursor-pointer bg-accent hover:bg-accent/90">Sign Up</Button>
+      <Button type="button" variant="outline" className="w-full cursor-pointer bg-accent hover:bg-accent/90" onClick={onSubmitGoogle}>
+        <Image src="google.svg" alt="Logo" width={20} height={20} />
+        Continue with google
+      </Button>
       </form>
     </div>
   )
