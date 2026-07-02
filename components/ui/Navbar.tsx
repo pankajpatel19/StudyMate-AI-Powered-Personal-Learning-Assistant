@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Sheet,
   SheetContent,
@@ -41,13 +41,11 @@ export function Navbar() {
           <NavigationMenuList>
             {navLinks.map((link) => (
               <NavigationMenuItem key={link.href}>
-                <NavigationMenuLink >
-                  <Link
-                    href={link.href}
-                    className="px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </Link>
+                <NavigationMenuLink
+                  render={<Link href={link.href} />}
+                  className="px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {link.label}
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
@@ -56,21 +54,21 @@ export function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-2">
-          <Button variant="ghost" >
-            <Link href="/login">Login</Link>
-          </Button>
-          <Button >
-            <Link href="/signup">Sign up</Link>
-          </Button>
+          <Link href="/login" className={buttonVariants({ variant: "ghost" })}>
+            Login
+          </Link>
+          <Link href="/signup" className={buttonVariants()}>
+            Sign up
+          </Link>
         </div>
 
         {/* Mobile Menu Trigger */}
         <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger >
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
+          <SheetTrigger
+            render={<Button variant="ghost" size="icon" className="md:hidden" />}
+          >
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">Toggle menu</span>
           </SheetTrigger>
 
           <SheetContent side="right" className="w-[280px] sm:w-[320px]">
@@ -99,16 +97,12 @@ export function Navbar() {
             </nav>
 
             <div className="mt-6 flex flex-col gap-2">
-              <Button variant="outline" >
-                <Link href="/login" onClick={() => setOpen(false)}>
-                  Login
-                </Link>
-              </Button>
-              <Button >
-                <Link href="/signup" onClick={() => setOpen(false)}>
-                  Sign up
-                </Link>
-              </Button>
+              <Link href="/login" onClick={() => setOpen(false)} className={buttonVariants({ variant: "outline" })}>
+                Login
+              </Link>
+              <Link href="/signup" onClick={() => setOpen(false)} className={buttonVariants()}>
+                Sign up
+              </Link>
             </div>
           </SheetContent>
         </Sheet>
